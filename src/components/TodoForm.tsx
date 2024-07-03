@@ -14,7 +14,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from './ui/button';
 import { addTodo } from '@/actions/todos.actions';
-import { Checkbox } from './ui/checkbox';
+import { Checkbox } from "@/components/ui/checkbox"
+
 import LoadingSpinner from './LoadingSpinner';
 
 const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
@@ -60,7 +61,6 @@ const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
             setLoading(true)
             await addTodo({ title: data.title, body: data.body, completed: data.completed });
             setOpen(false)
-            setLoading(false)
         } catch (error) {
             setOpen(false)
             setLoading(false)
@@ -112,7 +112,7 @@ const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
                             <FormItem>
                                 <FormControl>
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="terms" checked={field.value} onCheckedChange={field.onChange} {...field} />
+                                        <Checkbox id="terms" checked={field.value} onCheckedChange={field.onChange} />
                                         <label
                                             htmlFor="terms"
                                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
