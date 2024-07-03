@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Form,
     FormControl,
@@ -10,12 +10,16 @@ import {
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from './ui/button';
 import { addTodo } from '@/actions/todos.actions';
+import { Checkbox } from './ui/checkbox';
+import LoadingSpinner from './LoadingSpinner';
 
-const TodoForm = () => {
+const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
+    const [loading, setLoading] = useState<boolean>(false);
+
     const profileFormSchema = z.object({
         title: z
             .string()
@@ -31,6 +35,9 @@ const TodoForm = () => {
                 message: "Username must not be longer than 100 characters.",
             })
             .optional(),
+        completed: z
+            .boolean()
+            .optional()
     });
 
     type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -39,6 +46,7 @@ const TodoForm = () => {
     const defaultValues: Partial<ProfileFormValues> = {
         title: "",
         body: "",
+        completed: false
     };
 
     const form = useForm<ProfileFormValues>({
@@ -48,8 +56,17 @@ const TodoForm = () => {
     });
 
     const onSubmit = async (data: ProfileFormValues) => {
-        const res = await addTodo({ title: data.title, body: data.body })
-        console.log(res);
+        try {
+            setLoading(true)
+            await addTodo({ title: data.title, body: data.body, completed: data.completed });
+            setOpen(false)
+            setLoading(false)
+        } catch (error) {
+            setOpen(false)
+            setLoading(false)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -75,7 +92,7 @@ const TodoForm = () => {
                         name="body"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Bio</FormLabel>
+                                <FormLabel>Body</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         placeholder="Tell us a little bit about yourself"
@@ -90,13 +107,12 @@ const TodoForm = () => {
 
                     <FormField
                         control={form.control}
-                        name="body"
+                        name="completed"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Bio</FormLabel>
                                 <FormControl>
                                     <div className="flex items-center space-x-2">
-                                        <Checkbox id="terms" />
+                                        <Checkbox id="terms" checked={field.value} onCheckedChange={field.onChange} {...field} />
                                         <label
                                             htmlFor="terms"
                                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -104,13 +120,17 @@ const TodoForm = () => {
                                             Accept terms and conditions
                                         </label>
                                     </div>
+
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-
-                    <Button type='submit'>Add Todo</Button>
+                    <Button type='submit'>
+                        {
+                            loading ? <LoadingSpinner /> : "Add Todo"
+                        }
+                    </Button>
                 </form>
             </Form>
         </>
