@@ -14,6 +14,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from './ui/button';
 import { addTodo } from '@/actions/todos.actions';
+import { Checkbox } from "@/components/ui/checkbox"
 
 const TodoForm = () => {
     const profileFormSchema = z.object({
@@ -48,7 +49,7 @@ const TodoForm = () => {
     });
 
     const onSubmit = async (data: ProfileFormValues) => {
-        const res = await addTodo({title: data.title, body: data.body})
+        const res = await addTodo({ title: data.title, body: data.body })
         console.log(res);
     }
 
@@ -82,6 +83,29 @@ const TodoForm = () => {
                                         className="resize-none"
                                         {...field}
                                     />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="body"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Bio</FormLabel>
+                                <FormControl>
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox id="terms" />
+                                        <label
+                                            htmlFor="terms"
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                        >
+                                            Accept terms and conditions
+                                        </label>
+                                    </div>
+
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
