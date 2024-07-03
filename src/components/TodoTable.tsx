@@ -9,9 +9,16 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Button } from "./ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import DeleteModal from "./DeleteModal";
+import { Badge } from "./ui/badge";
 
 export default async function TodoTable() {
     const todos = await getAllTodos();
@@ -32,14 +39,42 @@ export default async function TodoTable() {
                     {todos.map((todo, index) => (
                         <TableRow key={todo.id}>
                             <TableCell>{index + 1}</TableCell>
-                            <TableCell>{todo.title}</TableCell>
-                            <TableCell>{todo.body}</TableCell>
-                            <TableCell>{todo.completed}</TableCell>
-                            <TableCell className="flex justify-start align-middle space-x-4">
-                                <Button size={"icon"}>
-                                    <Pencil />
-                                </Button>
-                                <DeleteModal todoId={todo.id}/>
+                            <TableCell >
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild className="flex flex-wrap">
+                                            <div>
+                                                {todo.title.split(" ").slice(0, 10).join(" ")}
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-[600px] mx-auto">
+                                            {todo.title}
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </TableCell>
+                            <TableCell >
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild className="flex flex-wrap">
+                                            <div >
+                                                {todo.body?.split(" ").slice(0, 10).join(" ")}
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-[600px] mx-auto">
+                                            {todo.body}
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </TableCell>
+                            <TableCell>{todo.completed ? <Badge>Completed</Badge> : <Badge variant="secondary">Uncompleted</Badge>}</TableCell>
+                            <TableCell>
+                                <div className="flex justify-start items-center space-x-4">
+                                    <Button size={"icon"}>
+                                        <Pencil />
+                                    </Button>
+                                    <DeleteModal todoId={todo.id} />
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}

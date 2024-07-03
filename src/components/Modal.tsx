@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import TodoForm from "./TodoForm";
 import { Plus } from "lucide-react";
@@ -14,10 +14,10 @@ import {
 } from "./ui/dialog";
 
 const Modal = () => {
-    
+    const [open, setOpen] = useState<boolean>(false);
     return (
         <>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     <Button>
                         <Plus className="mr-1" />
@@ -28,9 +28,8 @@ const Modal = () => {
                     <DialogHeader>
                         <DialogTitle className="text-[28px] mb-[24px]">Edit profile</DialogTitle>
                     </DialogHeader>
-                    <TodoForm/>
+                    <TodoForm setOpen={setOpen}/>
                     <DialogFooter>
-                        <Button type="submit">Save changes</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

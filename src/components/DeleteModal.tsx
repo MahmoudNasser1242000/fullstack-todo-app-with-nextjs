@@ -18,20 +18,21 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const DeleteModal = ({todoId}: {todoId: string}) => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
     
     const deleteTodoFunc = async () => {
         try {
             setLoading(true)
-            await deleteTodo({id: todoId})
+            await deleteTodo({id: todoId});
+            setOpen(false)
         } catch (error) {
             setLoading(false)
-        } finally {
-            setLoading(false)
+            setOpen(false)
         }
     }
     return (
         <>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     <Button variant={"destructive"} size={"icon"}>
                         <Trash2 />
