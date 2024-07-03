@@ -1,11 +1,10 @@
-import { getAllTodos } from "@/actions/todos.actions"
+import TodoTable from "@/components/TodoTable";
 
-export default async function Home() {
-  const todos = await getAllTodos();
+export default function Home() {
   
   return (
     <main >
-      {/* {JSON.stringify(todos)} */}
+      <TodoTable/>
     </main>
   );
 }
