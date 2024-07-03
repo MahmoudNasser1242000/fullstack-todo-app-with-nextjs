@@ -14,12 +14,13 @@ export const getAllTodos = async () => {
 }
 
 export const addTodo = async ({title, body}: {title: string, body?: string | undefined}) => {
-    return await prisma.todo.create({
+    await prisma.todo.create({
         data: {
             title,
             body
         }
     });
+    revalidatePath("/")
 }
 
 export const deleteTodo = async ({id}: {id: string}) => {
