@@ -15,10 +15,9 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Button } from "./ui/button";
-import { Pencil, Trash2 } from "lucide-react";
 import DeleteModal from "./DeleteModal";
 import { Badge } from "./ui/badge";
+import UpdateModel from "./UpdateModel";
 
 export default async function TodoTable() {
     const todos = await getAllTodos();
@@ -70,9 +69,7 @@ export default async function TodoTable() {
                             <TableCell>{todo.completed ? <Badge>Completed</Badge> : <Badge variant="secondary">Uncompleted</Badge>}</TableCell>
                             <TableCell>
                                 <div className="flex justify-start items-center space-x-4">
-                                    <Button size={"icon"}>
-                                        <Pencil />
-                                    </Button>
+                                    <UpdateModel todo={todo}/>
                                     <DeleteModal todoId={todo.id} />
                                 </div>
                             </TableCell>

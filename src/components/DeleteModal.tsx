@@ -24,10 +24,13 @@ const DeleteModal = ({todoId}: {todoId: string}) => {
         try {
             setLoading(true)
             await deleteTodo({id: todoId});
+            setLoading(false)
             setOpen(false)
         } catch (error) {
             setLoading(false)
             setOpen(false)
+        } finally {
+            setLoading(false)
         }
     }
     return (

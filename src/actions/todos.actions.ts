@@ -13,7 +13,7 @@ export const getAllTodos = async () => {
     });
 }
 
-export const addTodo = async ({title, body, completed}: {title: string, body?: string | undefined, completed?: boolean | undefined}) => {
+export const addTodo = async ({title, body, completed}: {title: string, body?: string | null, completed?: boolean | undefined}) => {
     await prisma.todo.create({
         data: {
             title,
@@ -29,6 +29,16 @@ export const deleteTodo = async ({id}: {id: string}) => {
         where: {
             id
         }
+    });
+    revalidatePath("/")
+}
+
+export const updateTodo = async (data: {title: string, body?: string | null | undefined, completed?: boolean | undefined}, id: string | undefined) => {
+    await prisma.todo.update({
+        where: {
+            id
+        },
+        data
     });
     revalidatePath("/")
 }

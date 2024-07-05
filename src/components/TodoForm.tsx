@@ -13,12 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from './ui/button';
-import { addTodo } from '@/actions/todos.actions';
+import { addTodo, updateTodo } from '@/actions/todos.actions';
 import { Checkbox } from "@/components/ui/checkbox"
 
 import LoadingSpinner from './LoadingSpinner';
+import { ITodo } from '@/types';
 
-const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
+const TodoForm = ({ setOpen, type, todo }: { setOpen: (open: boolean) => void, type: string, todo?: ITodo }) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const profileFormSchema = z.object({
@@ -31,10 +32,13 @@ const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
                 message: "Username must not be longer than 50 characters.",
             }),
         body: z
-            .string()
-            .max(100, {
-                message: "Username must not be longer than 100 characters.",
-            })
+            .union([
+                z.string()
+                .max(100, {
+                    message: "Username must not be longer than 100 characters.",
+                }),
+                z.null(),
+            ])
             .optional(),
         completed: z
             .boolean()
@@ -45,9 +49,9 @@ const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
 
     // This can come from your database or API.
     const defaultValues: Partial<ProfileFormValues> = {
-        title: "",
-        body: "",
-        completed: false
+        title: type === "update" ? todo?.title : "",
+        body: type === "update" ? todo?.body : "",
+        completed: type === "update" ? todo?.completed : false
     };
 
     const form = useForm<ProfileFormValues>({
@@ -57,15 +61,28 @@ const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
     });
 
     const onSubmit = async (data: ProfileFormValues) => {
-        try {
-            setLoading(true)
-            await addTodo({ title: data.title, body: data.body, completed: data.completed });
-            setOpen(false)
-        } catch (error) {
-            setOpen(false)
-            setLoading(false)
-        } finally {
-            setLoading(false)
+        if (type === "create") {
+            try {
+                setLoading(true)
+                await addTodo({ title: data.title, body: data.body, completed: data.completed });
+                setOpen(false)
+            } catch (error) {
+                setOpen(false)
+                setLoading(false)
+            } finally {
+                setLoading(false)
+            }
+        } else {
+            try {
+                setLoading(true)
+                await updateTodo(data, todo?.id);
+                setOpen(false)
+            } catch (error) {
+                setOpen(false)
+                setLoading(false)
+            } finally {
+                setLoading(false)
+            }
         }
     }
 
@@ -98,6 +115,7 @@ const TodoForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
                                         placeholder="Tell us a little bit about yourself"
                                         className="resize-none"
                                         {...field}
+                                        value={field.value === null? "" : field.value}
                                     />
                                 </FormControl>
                                 <FormMessage />
