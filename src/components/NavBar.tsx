@@ -17,7 +17,11 @@ const NavBar = () => {
                         <SignInButton />
                     </SignedOut>
                     <SignedIn>
-                        <UserButton />
+                        <UserButton appearance={{
+                            elements: {
+                                userButtonTrigger: "h-fit"
+                            }
+                        }}/>
                     </SignedIn>
                 </>
             </nav>
