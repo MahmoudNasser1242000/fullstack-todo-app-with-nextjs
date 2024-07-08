@@ -157,7 +157,7 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
                     />
                     <Button type='submit'>
                         {
-                            loading ? <LoadingSpinner /> : "Add Todo"
+                            loading ? <LoadingSpinner /> : (type === "create"? "Add Todo" : "Edit Todo")
                         }
                     </Button>
                 </form>
