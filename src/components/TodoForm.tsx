@@ -141,7 +141,7 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
                                             htmlFor="terms"
                                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                                         >
-                                            Accept terms and conditions
+                                            Completed Todo
                                         </label>
                                     </div>
 
