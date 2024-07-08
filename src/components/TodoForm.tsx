@@ -97,7 +97,7 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
     return (
         <>
             <DialogHeader>
-                <DialogTitle className="text-[28px] mb-[24px]">{type==="create"? "Add" : "Edit"} profile</DialogTitle>
+                <DialogTitle className="text-[28px] mb-[24px]">{type==="create"? "Add" : "Edit"} Todo</DialogTitle>
             </DialogHeader>
             <Form {...form}>
                 <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
