@@ -103,7 +103,7 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
                             <FormItem>
                                 <FormLabel>Username</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="shadcn" {...field} />
+                                    <Input placeholder="Enter your name" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -118,7 +118,7 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
                                 <FormLabel>Body</FormLabel>
                                 <FormControl>
                                     <Textarea
-                                        placeholder="Tell us a little bit about yourself"
+                                        placeholder="Tell us a little bit about your todo"
                                         className="resize-none"
                                         {...field}
                                         value={field.value === null? "" : field.value}
