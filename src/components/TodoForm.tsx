@@ -20,6 +20,8 @@ import LoadingSpinner from './LoadingSpinner';
 import { ITodo } from '@/types';
 import { auth } from '@clerk/nextjs/server';
 import toast from 'react-hot-toast';
+import { DialogHeader } from './ui/dialog';
+import { DialogTitle } from '@radix-ui/react-dialog';
 
 const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) => void, type: string, todo?: ITodo, userId?: string | null }) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -36,9 +38,9 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
         body: z
             .union([
                 z.string()
-                .max(100, {
-                    message: "Username must not be longer than 100 characters.",
-                }),
+                    .max(100, {
+                        message: "Username must not be longer than 100 characters.",
+                    }),
                 z.null(),
             ])
             .optional(),
@@ -61,7 +63,7 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
         defaultValues,
         mode: "onChange",
     });
-    
+
     const onSubmit = async (data: ProfileFormValues) => {
         if (type === "create") {
             try {
@@ -94,6 +96,9 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
 
     return (
         <>
+            <DialogHeader>
+                <DialogTitle className="text-[28px] mb-[24px]">{type==="create"? "Add" : "Edit"} profile</DialogTitle>
+            </DialogHeader>
             <Form {...form}>
                 <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
@@ -121,7 +126,7 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
                                         placeholder="Tell us a little bit about your todo"
                                         className="resize-none"
                                         {...field}
-                                        value={field.value === null? "" : field.value}
+                                        value={field.value === null ? "" : field.value}
                                     />
                                 </FormControl>
                                 <FormMessage />

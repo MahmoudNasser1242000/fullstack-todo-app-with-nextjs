@@ -25,9 +25,6 @@ const Modal = ({userId}: {userId: string | null}) => {
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle className="text-[28px] mb-[24px]">Edit profile</DialogTitle>
-                    </DialogHeader>
                     <TodoForm setOpen={setOpen} type={"create"} userId={userId}/>
                     <DialogFooter>
                     </DialogFooter>
