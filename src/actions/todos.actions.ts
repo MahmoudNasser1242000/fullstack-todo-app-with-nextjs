@@ -1,44 +1,65 @@
-"use server"
+"use server";
 
-import { PrismaClient } from '@prisma/client'
-import { revalidatePath } from 'next/cache';
+import { PrismaClient } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-export const getAllTodos = async () => {
+export const getAllTodos = async ({userId}: {userId: string | null}) => {
     return await prisma.todo.findMany({
+        where: {
+            UserId: userId as string
+        },
         orderBy: {
-            createdAt: "desc"
-        }
+            createdAt: "desc",
+        },
     });
-}
+};
 
-export const addTodo = async ({title, body, completed}: {title: string, body?: string | null, completed?: boolean | undefined}) => {
+export const addTodo = async ({
+    title,
+    body,
+    completed,
+    userId,
+}: {
+    title: string;
+    body?: string | null;
+    completed?: boolean | undefined;
+    userId: string | null | undefined;
+}) => {
     await prisma.todo.create({
         data: {
             title,
             body,
-            completed
-        }
+            UserId: userId as string,
+            completed,
+        },
     });
-    revalidatePath("/")
-}
+    revalidatePath("/");
+};
 
-export const deleteTodo = async ({id}: {id: string}) => {
+export const deleteTodo = async ({ id }: { id: string }) => {
     await prisma.todo.delete({
         where: {
-            id
-        }
+            id,
+        },
     });
-    revalidatePath("/")
-}
+    revalidatePath("/");
+};
 
-export const updateTodo = async (data: {title: string, body?: string | null | undefined, completed?: boolean | undefined}, id: string | undefined) => {
+export const updateTodo = async (
+    data: {
+        title: string;
+        body?: string | null | undefined;
+        completed?: boolean | undefined;
+    },
+    id: string | undefined
+) => {
     await prisma.todo.update({
         where: {
-            id
+            id,
         },
-        data
+        data,
     });
-    revalidatePath("/")
-}
+    revalidatePath("/");
+};

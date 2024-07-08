@@ -3,7 +3,9 @@ import { Inter } from "next/font/google";
 import ThemeProvider from "../../providers/ThemeProvider";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
+import Login from "./sign-in/[[...sign-in]]/page";
+import Register from "./sign-up/[[...sign-up]]/page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +23,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
 
-        <body className={inter.className} suppressHydrationWarning={true}>
+        <body className={`${inter.className} h-full`} suppressHydrationWarning={true}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -29,7 +31,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <NavBar />
-            {children}
+              {children}
           </ThemeProvider>
         </body>
       </html>

@@ -18,8 +18,9 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 import LoadingSpinner from './LoadingSpinner';
 import { ITodo } from '@/types';
+import { auth } from '@clerk/nextjs/server';
 
-const TodoForm = ({ setOpen, type, todo }: { setOpen: (open: boolean) => void, type: string, todo?: ITodo }) => {
+const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) => void, type: string, todo?: ITodo, userId?: string | null }) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const profileFormSchema = z.object({
@@ -59,12 +60,12 @@ const TodoForm = ({ setOpen, type, todo }: { setOpen: (open: boolean) => void, t
         defaultValues,
         mode: "onChange",
     });
-
+    
     const onSubmit = async (data: ProfileFormValues) => {
         if (type === "create") {
             try {
                 setLoading(true)
-                await addTodo({ title: data.title, body: data.body, completed: data.completed });
+                await addTodo({ title: data.title, body: data.body, completed: data.completed, userId });
                 setOpen(false)
             } catch (error) {
                 setOpen(false)

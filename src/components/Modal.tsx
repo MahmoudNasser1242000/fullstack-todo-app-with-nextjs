@@ -13,7 +13,7 @@ import {
     DialogTrigger,
 } from "./ui/dialog";
 
-const Modal = () => {
+const Modal = ({userId}: {userId: string | null}) => {
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
@@ -28,7 +28,7 @@ const Modal = () => {
                     <DialogHeader>
                         <DialogTitle className="text-[28px] mb-[24px]">Edit profile</DialogTitle>
                     </DialogHeader>
-                    <TodoForm setOpen={setOpen} type={"create"}/>
+                    <TodoForm setOpen={setOpen} type={"create"} userId={userId}/>
                     <DialogFooter>
                     </DialogFooter>
                 </DialogContent>

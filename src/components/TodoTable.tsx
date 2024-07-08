@@ -18,11 +18,13 @@ import {
 import DeleteModal from "./DeleteModal";
 import { Badge } from "./ui/badge";
 import UpdateModel from "./UpdateModel";
+import { auth } from "@clerk/nextjs/server";
 
 export default async function TodoTable() {
-    const todos = await getAllTodos();
+    const { userId } : { userId: string | null } = auth();
+    const todos = await getAllTodos({userId});
     return (
-        <div className="container mx-auto px-20 mt-10">
+        <div className="mt-4">
             <Table>
                 <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>

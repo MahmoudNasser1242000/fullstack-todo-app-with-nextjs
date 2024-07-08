@@ -1,17 +1,25 @@
 import React from 'react'
 import { ModeToggle } from './ModeToggle'
-import Modal from './Modal'
+import {
+    SignInButton,
+    SignedIn,
+    SignedOut,
+    UserButton
+} from '@clerk/nextjs'
 
-interface IProps {
-
-}
-
-const NavBar = ({ }: IProps) => {
+const NavBar = () => {
     return (
         <div className='flex justify-center align-middle mt-8'>
             <nav className='lg:w-[55%] md:w-[70%]  sm:w-[85%] w-full flex justify-between align-middle'>
+                <>
+                    <SignedOut>
+                        <SignInButton />
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
+                </>
                 <ModeToggle />
-                <Modal/>
             </nav>
         </div>
     )
