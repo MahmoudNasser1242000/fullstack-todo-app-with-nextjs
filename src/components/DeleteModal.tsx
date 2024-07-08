@@ -15,6 +15,7 @@ import {
 import { Trash2 } from "lucide-react";
 import { deleteTodo } from "@/actions/todos.actions";
 import LoadingSpinner from "./LoadingSpinner";
+import toast from "react-hot-toast";
 
 const DeleteModal = ({todoId}: {todoId: string}) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -24,9 +25,10 @@ const DeleteModal = ({todoId}: {todoId: string}) => {
         try {
             setLoading(true)
             await deleteTodo({id: todoId});
-            setLoading(false)
+            toast.success('Successfully deleted!');
             setOpen(false)
         } catch (error) {
+            toast.error('SomeThing wrong, Please try again!');
             setLoading(false)
             setOpen(false)
         } finally {

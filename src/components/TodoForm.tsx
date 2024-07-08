@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import LoadingSpinner from './LoadingSpinner';
 import { ITodo } from '@/types';
 import { auth } from '@clerk/nextjs/server';
+import toast from 'react-hot-toast';
 
 const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) => void, type: string, todo?: ITodo, userId?: string | null }) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -66,8 +67,10 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
             try {
                 setLoading(true)
                 await addTodo({ title: data.title, body: data.body, completed: data.completed, userId });
+                toast.success('Successfully created!');
                 setOpen(false)
             } catch (error) {
+                toast.error('SomeThing wrong, Please try again!');
                 setOpen(false)
                 setLoading(false)
             } finally {
@@ -77,8 +80,10 @@ const TodoForm = ({ setOpen, type, todo, userId }: { setOpen: (open: boolean) =>
             try {
                 setLoading(true)
                 await updateTodo(data, todo?.id);
+                toast.success('Successfully updated!');
                 setOpen(false)
             } catch (error) {
+                toast.error('SomeThing wrong, Please try again!');
                 setOpen(false)
                 setLoading(false)
             } finally {

@@ -9,7 +9,7 @@ export default function Home() {
       <div className="flex justify-end">
         <Modal userId={userId}/>
       </div>
-      <TodoTable />
+      <TodoTable userId={userId}/>
     </main>
   );
 }

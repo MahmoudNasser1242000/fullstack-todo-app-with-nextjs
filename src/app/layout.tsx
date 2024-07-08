@@ -4,8 +4,7 @@ import ThemeProvider from "../../providers/ThemeProvider";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
-import Login from "./sign-in/[[...sign-in]]/page";
-import Register from "./sign-up/[[...sign-up]]/page";
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +23,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
 
         <body className={`${inter.className} h-full`} suppressHydrationWarning={true}>
+          <Toaster position="bottom-center"/>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

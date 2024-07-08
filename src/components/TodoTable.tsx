@@ -15,16 +15,15 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Button } from "./ui/button";
+import { Pencil } from "lucide-react";
 import DeleteModal from "./DeleteModal";
 import { Badge } from "./ui/badge";
-import UpdateModel from "./UpdateModel";
-import { auth } from "@clerk/nextjs/server";
 
-export default async function TodoTable() {
-    const { userId } : { userId: string | null } = auth();
+export default async function TodoTable({userId}: {userId: string | null}) {
     const todos = await getAllTodos({userId});
     return (
-        <div className="mt-4">
+        <div className="container mx-auto px-20 mt-10">
             <Table>
                 <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
@@ -71,7 +70,9 @@ export default async function TodoTable() {
                             <TableCell>{todo.completed ? <Badge>Completed</Badge> : <Badge variant="secondary">Uncompleted</Badge>}</TableCell>
                             <TableCell>
                                 <div className="flex justify-start items-center space-x-4">
-                                    <UpdateModel todo={todo}/>
+                                    <Button size={"icon"}>
+                                        <Pencil />
+                                    </Button>
                                     <DeleteModal todoId={todo.id} />
                                 </div>
                             </TableCell>
