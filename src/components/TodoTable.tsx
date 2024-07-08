@@ -19,9 +19,10 @@ import { Button } from "./ui/button";
 import { Pencil } from "lucide-react";
 import DeleteModal from "./DeleteModal";
 import { Badge } from "./ui/badge";
+import UpdateModel from "./UpdateModel";
 
-export default async function TodoTable({userId}: {userId: string | null}) {
-    const todos = await getAllTodos({userId});
+export default async function TodoTable({ userId }: { userId: string | null }) {
+    const todos = await getAllTodos({ userId });
     return (
         <div className="container mx-auto px-20 mt-10">
             <Table>
@@ -70,9 +71,7 @@ export default async function TodoTable({userId}: {userId: string | null}) {
                             <TableCell>{todo.completed ? <Badge>Completed</Badge> : <Badge variant="secondary">Uncompleted</Badge>}</TableCell>
                             <TableCell>
                                 <div className="flex justify-start items-center space-x-4">
-                                    <Button size={"icon"}>
-                                        <Pencil />
-                                    </Button>
+                                    <UpdateModel todo={todo}/>
                                     <DeleteModal todoId={todo.id} />
                                 </div>
                             </TableCell>
