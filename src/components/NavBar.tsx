@@ -11,6 +11,7 @@ const NavBar = () => {
     return (
         <div className='flex justify-center align-middle mt-8'>
             <nav className='lg:w-[55%] md:w-[70%]  sm:w-[85%] w-full flex justify-between align-middle'>
+                <ModeToggle />
                 <>
                     <SignedOut>
                         <SignInButton />
@@ -19,7 +20,6 @@ const NavBar = () => {
                         <UserButton />
                     </SignedIn>
                 </>
-                <ModeToggle />
             </nav>
         </div>
     )
